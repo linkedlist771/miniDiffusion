@@ -111,7 +111,7 @@ diff_repo = "stabilityai/stable-diffusion-3.5-medium"
 # --- VAE Part ---
 if not vae_path.exists():
     print(f"Downloading VAE and saving to {vae_path}")
-    pipe = StableDiffusion3Pipeline.from_pretrained(diff_repo, token="", torch_dtype=torch.bfloat16)
+    pipe = StableDiffusion3Pipeline.from_pretrained(diff_repo, torch_dtype=torch.bfloat16)
     vae_weights_path = pipe.vae.state_dict()
     torch.save(vae_weights_path, vae_path)
     print(f"Saved VAE state_dict to {vae_path}")
@@ -121,7 +121,6 @@ if not sd3_diff_path.exists():
     print(f"Downloading SD3 Transformer and saving to {sd3_diff_path}")
     model = SD3Transformer2DModel.from_pretrained(
         diff_repo, subfolder="transformer",
-        token="",
         torch_dtype=torch.bfloat16
     )
     torch.save(model.to(torch.bfloat16).state_dict(), sd3_diff_path)
@@ -141,7 +140,6 @@ if not clip_2_path.exists():
     clip_model = CLIPTextModelWithProjection.from_pretrained(
         clip_2_repo, 
         torch_dtype=torch.bfloat16,
-        token=""
     )
     clip_model_state_dict = clip_model.state_dict()
     torch.save(clip_model_state_dict, clip_2_path)
